@@ -24,7 +24,7 @@ typedef struct
   int match_count;
 } ANSWER;
 
-// 各start、lengthのm保持
+// 各start、lengthにおけるans
 typedef struct
 {
   ANSWER match[10000][300];
@@ -124,10 +124,10 @@ ANSWER analyzeRange(char *model, SameValue **same_value_array, char *strBuffer_d
   ans.match_count = 0;
   // printf("start:%d, length:%d\n", start, length);
 
-  // same_value_arrayのmの値を捜査して最小の値を見つける
-  // 質問範囲を操作して基準データ(Aさんのデータ)と一致する行数が最小の値mを見つける
-  if (match_value->match[start][length].start == 0)
+  if (match_value->match[start][length].start == 0) // 既に同じstart、lengthで実施しているかで分岐
   {
+    // same_value_arrayのmの値を捜査して最小の値を見つける
+    // 質問範囲を操作して基準データ(Aさんのデータ)と一致する行数が最小の値mを見つける
     for (int i = start; i < start + length; i++)
     {
       m = same_value_array[i]->m; // 同じ値を持つ行の数を取得
@@ -165,13 +165,11 @@ ANSWER analyzeRange(char *model, SameValue **same_value_array, char *strBuffer_d
       }
     }
 
-    match_value->match[start][length] = ans;
-
+    match_value->match[start][length] = ans; // ansを保存
     return ans;
   }
-  else
+  else // 既に同じstart、lengthで実施している場合
   {
-    // printf("start:%d,length:%d,match_count:%d\n", match_value->match[start][length].start, match_value->match[start][length].length, match_value->match[start][length].match_count);
     return match_value->match[start][length];
   }
 }
@@ -264,6 +262,7 @@ int main(int argc, char *argv[])
     return 1;
   }
 
+  // ans保持用構造体の初期化
   MatchValue *match_value = (MatchValue *)malloc(sizeof(MatchValue));
   if (match_value == NULL)
   {
