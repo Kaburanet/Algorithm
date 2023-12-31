@@ -1,5 +1,5 @@
 // ver2の追加内容
-// 同じstart、lengthの結果を保有することでmの走査の手間を省く
+// 同じstart、lengthの結果を保有することで走査の手間を省く
 
 #include <stdio.h>
 #include <stdlib.h>
