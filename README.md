@@ -11,4 +11,10 @@
 
 1.今回の課題用に適当なフォルダーを1つ作る。(自分はdocumentの中に作った)
 2.git bashで、作ったフォルダーまでcdで移動。
-3. git clone 
+3. 以下のコマンドを実行
+　　git clone https://github.com/Yuta-Goto/Algorithm.git
+  ※ここで今作ったフォルダーの下にAlgorithmというフォルダーが出来ると思うので、ここでそちらに移動。青色の(main)が横につくはず
+4. ★cloneが終わってから★自分の作ったファイルを今作ったフォルダーに移動する。
+5. git add .
+5. git commit -m "メッセージ"
+6. git push -u origin
