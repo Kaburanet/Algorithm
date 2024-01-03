@@ -129,7 +129,7 @@ ANSWER analyzeRange(char *model, SameValue **same_value_array, char *strBuffer_d
   ans.match_count = 0;
   // printf("start:%d, length:%d\n", start, length);
 
-  if (match_value->match[start][length].start == 0) // 既に同じstart、lengthで実施しているかで分岐
+  if (match_value->ans[start][length].start == 0) // 既に同じstart、lengthで実施しているかで分岐
   {
     // 次のfor文で走査する範囲を限定するためにmを再使用
     for (int k = length; k >= 0; k--)
@@ -156,7 +156,7 @@ ANSWER analyzeRange(char *model, SameValue **same_value_array, char *strBuffer_d
 
     match_value->m[start][length] = min_pos;
 
-    if (match_value->match[start][m_nearest_length].match_count == 0 || match_value->ans[start][m_nearest_length].match_count > min)
+    if (match_value->ans[start][m_nearest_length].match_count == 0 || match_value->ans[start][m_nearest_length].match_count > min)
     {
       // 見つかった最小のmの値をもとに、その位置の要素のx座標の値が範囲の中のx座標に含まれるかどうかを調べる
       for (int i = 0; i < same_value_array[min_pos]->m; i++)
