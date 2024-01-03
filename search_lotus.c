@@ -1,3 +1,6 @@
+// search_ver3と同等のコード
+// lotusフォルダの中で一番時間効率の良いやつを代表してこのファイルに記入
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,7 +27,7 @@ typedef struct
 // 各start、lengthにおけるansを保存
 typedef struct
 {
-  ANSWER match[10000][300];
+  ANSWER ans[10000][300];
   int m[10000][300];
 } MatchValue;
 
@@ -122,7 +125,7 @@ ANSWER analyzeRange(char *model, SameValue **same_value_array, char *strBuffer_d
   ans.match_count = 0;
   // printf("start:%d, length:%d\n", start, length);
 
-  if (match_value->match[start][length].start == 0) // 既に同じstart、lengthで実施しているかで分岐
+  if (match_value->ans[start][length].start == 0) // 既に同じstart、lengthで実施しているかで分岐
   {
     // 次のfor文で走査する範囲を限定するためにmを再使用
     for (int k = length; k >= 0; k--)
@@ -172,12 +175,12 @@ ANSWER analyzeRange(char *model, SameValue **same_value_array, char *strBuffer_d
       }
     }
 
-    match_value->match[start][length] = ans;
+    match_value->ans[start][length] = ans;
     return ans;
   }
   else // 既に同じstart、lengthで実施している場合
   {
-    return match_value->match[start][length];
+    return match_value->ans[start][length];
   }
 }
 
@@ -274,16 +277,6 @@ int main(int argc, char *argv[])
   {
     perror("メモリを確保に失敗しました");
     return 1;
-  }
-  for (int i = 0; i < 10000; i++)
-  {
-    for (int j = 0; j < 300; j++)
-    {
-      match_value->match[i][j].start = 0;
-      match_value->match[i][j].length = 0;
-      match_value->match[i][j].match_count = 0;
-      match_value->m[i][j] = 0;
-    }
   }
 
   model_name = strtok_r(strBuffer_range, delimiter, &saveptr); // モデル名
