@@ -29,8 +29,8 @@ typedef struct
 // 各start、lengthにおけるans
 typedef struct
 {
-  int match_array[10000][100][1000];
-  ANSWER match[10000][300];
+  int match_array[10000][300][1000];
+  ANSWER ans[10000][300];
   int m[10000][300];
 } MatchValue;
 
@@ -156,7 +156,7 @@ ANSWER analyzeRange(char *model, SameValue **same_value_array, char *strBuffer_d
 
     match_value->m[start][length] = min_pos;
 
-    if (match_value->match[start][m_nearest_length].match_count == 0 || match_value->match[start][m_nearest_length].match_count > min)
+    if (match_value->match[start][m_nearest_length].match_count == 0 || match_value->ans[start][m_nearest_length].match_count > min)
     {
       // 見つかった最小のmの値をもとに、その位置の要素のx座標の値が範囲の中のx座標に含まれるかどうかを調べる
       for (int i = 0; i < same_value_array[min_pos]->m; i++)
@@ -187,7 +187,7 @@ ANSWER analyzeRange(char *model, SameValue **same_value_array, char *strBuffer_d
     }
     else
     {
-      for (int i = 0; i < match_value->match[start][m_nearest_length].match_count; i++)
+      for (int i = 0; i < match_value->ans[start][m_nearest_length].match_count; i++)
       { // 1回目のループは見つかった最小のmに対してそのmの項目を全部を調べるために行う
         flg = 1;
         y = match_value->match_array[start][m_nearest_length][i]; // i番目に同じ回答をした人の位置を取得
@@ -214,12 +214,12 @@ ANSWER analyzeRange(char *model, SameValue **same_value_array, char *strBuffer_d
       }
     }
 
-    match_value->match[start][length] = ans; // ansを保存
+    match_value->ans[start][length] = ans; // ansを保存
     return ans;
   }
   else // 既に同じstart、lengthで実施している場合
   {
-    return match_value->match[start][length];
+    return match_value->ans[start][length];
   }
 }
 
@@ -317,15 +317,6 @@ int main(int argc, char *argv[])
   {
     perror("メモリを確保に失敗しました");
     return 1;
-  }
-  for (int i = 0; i < 10000; i++)
-  {
-    for (int j = 0; j < 300; j++)
-    {
-      match_value->match[i][j].start = 0;
-      match_value->match[i][j].length = 0;
-      match_value->match[i][j].match_count = 0;
-    }
   }
 
   model_name = strtok_r(strBuffer_range, delimiter, &saveptr); // モデル名の取得
